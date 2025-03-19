@@ -5,6 +5,8 @@
 
 namespace DBMMK1 
 {
+
+
     static constexpr int STATE_DIM = 6;
     static constexpr int CONTROL_DIM = 3;
     static constexpr int MEASURE_DIM = 4;
@@ -13,6 +15,40 @@ namespace DBMMK1
     typedef EMatrix<double, CONTROL_DIM, 1> U;
     typedef EMatrix<double, MEASURE_DIM, 1> Z;
 
+    // Zero-Cost Wrapper for Vehicle State to be able to access elements by name
+    class StateAcessor {
+    public:
+        // Constructor to initialize with a const reference to the state vector
+        StateAcessor(const X& state)
+            : _state(state) {}
+    
+        // Const getters for each element in the state vector
+        const double& p_x() const { return _state(0); } // Global X position
+        const double& p_y() const { return _state(1); } // Global Y position
+        const double& phi() const { return _state(2); } // Heading angle (yaw)
+        const double& u() const { return _state(3); } // Longitudinal velocity (in body frame)
+        const double& v() const { return _state(4); } // Lateral velocity (in body frame)
+        const double& omega() const { return _state(5); } // Yaw rate (angular velocity)
+    
+    private:
+        const X& _state;
+    };
+    
+    // Wrapper for Control Inputs
+    class ControlAcessor {
+    public:
+        // Constructor to initialize with a const reference to the control input vector
+        ControlAcessor(const U& control)
+            : _control(control) {}
+
+        // Const getters for each element in the control input vector
+        const double& a() const { return _control(0); } // Longitudinal acceleration
+        const double& delta() const { return _control(1); } // Steering angle (front wheels)
+        const double& dt() const { return _control(2); } // Time step
+    
+    private:
+        const U& _control;
+    };
     struct Parameters{
         double l_f; /* Distance from centrer of mass to front axis */
         double k_f; /* Front axis equivalent sideslip stiffness */
@@ -65,10 +101,6 @@ namespace DBMMK1
     // UTILS 
     /////////////////////////////////////////////////////////////////////////////////
 
-    void get_Fy1(const X &state, const U &control, double &output);
-    void get_Fy2(const X &state, const U &control, double &output);
-    void get_Fy1_partials(const X &state, const U &control, double output[3]);
-    void get_Fy2_partials(const X &state, const U &control, double output[3]);
     };
 
 } // namespace mirena
