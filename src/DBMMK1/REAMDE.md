@@ -1,6 +1,7 @@
 # Dynamic Bicycle Model Mk1 (DBMMK1)
 
 **NOTE: This design is intended as a placeholder. Further on the proyect, other architectures should be considered**
+**NOTE 2: Github kinda sucks balls so it wont display the matrixes at all. Just open this file with any good md formatter and youre golden**
 
 ## Overview
 The **Dynamic Bicycle Model (DBM)** is a mathematical representation of a wheeled vehicle’s motion, considering lateral dynamics, yaw rate, and steering input. The model accounts for the time step between updates, making it suitable for implementation in **Extended Kalman Filters (EKF)** and other discrete-time state estimation algorithms.
