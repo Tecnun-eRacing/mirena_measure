@@ -4,6 +4,8 @@
 #include "mirena_common/msg/wheel_speeds.hpp"
 #include "mirena_common/msg/car.hpp"
 
+#include "DBMMK1/dbmmk1.hpp"
+
 #define GPS_SUB_TOPIC "sensors/gps"
 #define WSS_SUB_TOPIC "sensors/wss"
 #define IMU_SUB_TOPIC "sensors/imu"
@@ -28,12 +30,12 @@ private:
         // TODO
     }
 
-    void imu_callback(const sensor_msgs::msg::NavSatFix::SharedPtr msg) const
+    void imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg) const
     {
         // TODO
     }
 
-    void wss_callback(const sensor_msgs::msg::NavSatFix::SharedPtr msg) const
+    void wss_callback(const mirena_common::msg::WheelSpeeds::SharedPtr msg) const
     {
         // TODO
     }
