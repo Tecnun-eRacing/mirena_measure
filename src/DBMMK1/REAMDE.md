@@ -44,12 +44,12 @@ The measure vector is the same as the state vector except for the linear velocit
 \[
 \mathbf{z} =
 \begin{bmatrix}
-x \\ y \\ \varphi \\ \omega
+p_x \\ p_y \\ \varphi \\ \omega
 \end{bmatrix}
 \]
 
 where:
-- \(x, y\): Global position of the vehicle
+- \(p_x, p_y\): Global position of the vehicle
 - \(\varphi\): Heading angle (yaw)
 - \(\omega\): Yaw rate (angular velocity)
 
