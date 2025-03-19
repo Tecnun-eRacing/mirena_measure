@@ -4,10 +4,10 @@
 
 using namespace DBMMK1;
 
-mirena::ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, MEASURE_DIM> DBMMK1::Model::build_ekf()
+mirena::ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, MEASURE_DIM> DBMMK1::Model::build_ekf(const Parameters &model_parameters)
 {
     // Use this model as both a Measure and Control model
-    std::shared_ptr<Model> model = std::make_shared<Model>();
+    std::shared_ptr<Model> model = std::make_shared<Model>(model_parameters);
     return mirena::ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, MEASURE_DIM>(model, model);
 }
 
@@ -79,17 +79,30 @@ EMatrix<double, STATE_DIM, STATE_DIM> DBMMK1::Model::get_state_jacobian(const X 
     return I + u.dt() * J;
 }
 
-//
-// NOTE: Probably the two functions below could be optimized by reusing the state prediction and jacobian, but tbh im too lazy to implement cachein.
-// Just let that idea sink in...
-//
-
 Z DBMMK1::Model::predict_measure(const X &state)
 {
-    return EMatrix<double, MEASURE_DIM, 1>();
+    Z prediction;
+    StateAcessor x(state);
+
+    /* p_x   */ prediction(0) = x.p_x();
+    /* p_y   */ prediction(1) = x.p_y();
+    /* phi   */ prediction(2) = x.phi();
+    /* omega */ prediction(3) = x.omega();
+
+    return prediction;
 }
 
 EMatrix<double, MEASURE_DIM, STATE_DIM> DBMMK1::Model::get_measure_jacobian(const X &state)
 {
-    return EMatrix<double, MEASURE_DIM, STATE_DIM>();
+    (void)state; // Supress the foking compilation warning like OK CMAKE YOURE SO INTELLIGENT stfu you silly ass bitch
+
+    // The jacobian is literally trivial to calculate from the function avobe lmao :3
+    EMatrix<double, MEASURE_DIM, STATE_DIM> J = EMatrix<double, MEASURE_DIM, STATE_DIM>::Zero();
+
+    J(0, 0) = 1; // ∂(p_x) / ∂(p_x)
+    J(1, 1) = 1; // ∂(p_y) / ∂(p_y)
+    J(2, 2) = 1; // ∂(phi) / ∂(phi)
+    J(3, 5) = 1; // ∂(omega) / ∂(omega)
+
+    return J;
 }

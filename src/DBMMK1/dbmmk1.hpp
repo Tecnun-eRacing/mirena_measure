@@ -6,7 +6,6 @@
 namespace DBMMK1 
 {
 
-
     static constexpr int STATE_DIM = 6;
     static constexpr int CONTROL_DIM = 3;
     static constexpr int MEASURE_DIM = 4;
@@ -73,7 +72,7 @@ namespace DBMMK1
     Model(Parameters params) : _params(params) {}
 
     // Build a Extended Kalman Filter using this model
-    static mirena::ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, MEASURE_DIM> build_ekf();
+    static mirena::ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, MEASURE_DIM> build_ekf(const Parameters &model_parameters);
 
     /////////////////////////////////////////////////////////////////////////////////
     // INTERFACES
