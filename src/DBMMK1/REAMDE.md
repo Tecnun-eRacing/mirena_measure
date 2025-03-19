@@ -1,6 +1,7 @@
 # Dynamic Bicycle Model Mk1 (DBMMK1)
 
 **NOTE: This design is intended as a placeholder. Further on the proyect, other architectures should be considered**
+
 **NOTE 2: Github kinda sucks balls so it wont display the matrixes at all. Just open this file with any good md formatter and youre golden**
 
 ## Overview
