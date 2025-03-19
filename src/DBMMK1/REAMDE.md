@@ -42,7 +42,7 @@ where:
 The measure vector is the same as the state vector except for the linear velocities. 
 
 \[
-\mathbf{x} =
+\mathbf{z} =
 \begin{bmatrix}
 x \\ y \\ \varphi \\ \omega
 \end{bmatrix}
@@ -102,10 +102,11 @@ k_r(-\frac{v+L_r\omega}{u^2}) & k_r(\frac{1}{u}) & k_r(\frac{L_r}{u})
 
 Once again, im too lazy and hate `.md` too much to bother explaining the rest of the parameters. Luckily there explained in `Table 1` in the [almighty chinese paper](https://arxiv.org/abs/2011.09612) `(long live the cpp)`
 
-The rest of the filter is a degenerated case of the **EKF** where the measure model is a partial of the state model
+The rest of the filter is a degenerated case of the **EKF** where the measure model is a partial of the state
 
 ## Measure prediction
-Since our measure vector is a subset of our state vector, the measure prediction function is a partial of the state model;
+Since our measure vector is a subset of our state vector, the measure prediction function is a partial of the state;
+The jacobian, then is a pseudo identity function. Proving this is left as an exercise to the reader definitely not for laziness-related reasons... 
 
 # IMPORTANT
 My description does NOT make justice to the model its based on. Check the [SOURCE](https://arxiv.org/abs/2011.09612)
