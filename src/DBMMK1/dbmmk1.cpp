@@ -33,7 +33,25 @@ X DBMMK1::Model::predict_state(const X &previous_state, const U &control)
 
 EMatrix<double, STATE_DIM, STATE_DIM> DBMMK1::Model::get_state_jacobian(const X &state, const U &control)
 {
-    return EMatrix<double, STATE_DIM, STATE_DIM>();
+    // Preparation
+    auto J = EMatrix<double, STATE_DIM, STATE_DIM>::Zero();
+    const auto I = EMatrix<double, STATE_DIM, STATE_DIM>::Identity();
+    StateAcessor x(state);
+    ControlAcessor u(control);
+
+    // Pre-Calculation of all the relevant partial derivatives of Fy1 and Fy2
+    double Fy1_du = - _params.k_f*(x.v() + _params.l_f*x.omega())/(x.u()*x.u());
+    double Fy1_dv = _params.k_f/(x.u());
+    double Fy1_dw = _params.k_f*(_params.l_f)/(x.u());
+    double Fy2_du = - _params.k_r*(x.v() + _params.l_r*x.omega())/(x.u()*x.u());
+    double Fy2_dv = _params.k_r/(x.u());
+    double Fy2_dw = _params.k_r*(_params.l_r)/(x.u());
+
+    // Calculate the jacobian J
+
+
+    
+    return I + u.dt()*J; 
 }
 
 // 
