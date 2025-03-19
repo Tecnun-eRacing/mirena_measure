@@ -105,7 +105,7 @@ public:
         EMatrix<double, x_size, x_size> predicted_covariance = (F) * (this->_state_covariances) * (F.transpose()) + this->_process_covariances;
 
         // Update
-        EMatrix<double, z_size, 1> measure_residual = measure - predicted_measure; // TODO fix this bug, this predicts over old state not predicted state
+        EMatrix<double, z_size, 1> measure_residual = measure - predicted_measure;
         EMatrix<double, z_size, z_size> covariance_residual = (H) * (predicted_covariance) * (H.transpose()) + this->_measure_covariances;
         EMatrix<double, x_size, z_size> K_gain = (predicted_covariance) * (H.transpose()) * (covariance_residual.inverse());
         this->_state = predicted_state + (K_gain) * (measure_residual);

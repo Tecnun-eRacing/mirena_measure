@@ -60,7 +60,7 @@ Im actually to tired to explain this. Refer to the first 2 pages of the [paper i
 The similitudes with the paper end here. Please please pretty please familiriarize yourself with \(f, F_{y1}, F_{y2}\) before trying to understand what sort of divine whitchcraft is going on next.
 What we did was expand this model to the following discrete(???) model
 
-\(x_{k+1}\) = \(x_k + \Delta t*f(x_k, u_k)\)
+\(x_{k+1}\) = \(x_k + \Delta t f(x_k, u_k)\)
 
 The Jacobian of this model is calculated analitically as follows:
 
