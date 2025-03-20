@@ -4,7 +4,7 @@
 #include "mirena_common/msg/wheel_speeds.hpp"
 #include "mirena_common/msg/car.hpp"
 
-#include "DBMMK1/dbmmk1.hpp"
+#include "ekf_scheduler.hpp"
 
 #define GPS_SUB_TOPIC "sensors/gps"
 #define WSS_SUB_TOPIC "sensors/wss"
@@ -12,9 +12,20 @@
 #define CAR_PUB_TOPIC "consensus/car"
 
 class MirenaConsensusNode : public rclcpp::Node
-{
+{    
 public:
+    // THESE ARE NOT EMPIRICAL AND ARE JUST TEST VALUES!!!!!!!!!!!
+    static constexpr DBMMK1::Parameters model_parameters = {
+        .l_f = 1.2,   // Distance from center of mass to front axis
+        .k_f = 50000, // Front axis equivalent sideslip stiffness
+        .l_r = 1.8,   // Distance from center of mass to rear axis
+        .k_r = 45000, // Rear axis equivalent sideslip stiffness
+        .I_z = 2500,  // Yaw inertia of vehicle body
+        .m = 1500     // Mass of the vehicle
+    };
+
     MirenaConsensusNode() : Node("mirena_lidar"),
+                            _ekf_scheduler(this->get_clock(), MirenaConsensusNode::model_parameters),
                             _gps_sub(this->create_subscription<sensor_msgs::msg::NavSatFix>(GPS_SUB_TOPIC, 10, std::bind(&MirenaConsensusNode::gps_callback, this, std::placeholders::_1))),
                             _imu_sub(this->create_subscription<sensor_msgs::msg::Imu>(IMU_SUB_TOPIC, 10, std::bind(&MirenaConsensusNode::imu_callback, this, std::placeholders::_1))),
                             _wss_sub(this->create_subscription<mirena_common::msg::WheelSpeeds>(WSS_SUB_TOPIC, 10, std::bind(&MirenaConsensusNode::wss_callback, this, std::placeholders::_1))),
@@ -23,22 +34,15 @@ public:
         RCLCPP_INFO(this->get_logger(), "Sensor Consensus Node initialized.");
     }
 
+
+
 private:
     // etc etc etc
-    void gps_callback(const sensor_msgs::msg::NavSatFix::SharedPtr msg) const
-    {
-        // TODO
-    }
+    void gps_callback(const sensor_msgs::msg::NavSatFix::SharedPtr msg) { this->_ekf_scheduler.receive_gps(msg); }
+    void imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg) { this->_ekf_scheduler.receive_imu(msg); }
+    void wss_callback(const mirena_common::msg::WheelSpeeds::SharedPtr msg) { this->_ekf_scheduler.receive_wss(msg); }
 
-    void imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg) const
-    {
-        // TODO
-    }
-
-    void wss_callback(const mirena_common::msg::WheelSpeeds::SharedPtr msg) const
-    {
-        // TODO
-    }
+    EKFScheduler _ekf_scheduler;
 
     rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr _gps_sub;
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr _imu_sub;
