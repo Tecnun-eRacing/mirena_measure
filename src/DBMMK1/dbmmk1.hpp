@@ -57,7 +57,7 @@ namespace DBMMK1
         double m; /* Mass of the vehicle */
     };
     
-    // Implementation of the Dynamic Bicycle Model Mark 1
+    // Implementation of the Dynamic Bicycle Model Mark 1 using Forward Euler
     // Ready to be used in the EKM as both the measure and prediction model
     class Model: public mirena::StatePredictor<STATE_DIM, CONTROL_DIM>, public mirena::MeasurePredictor<STATE_DIM, MEASURE_DIM>
     {

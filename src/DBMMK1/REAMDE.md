@@ -5,7 +5,7 @@
 **NOTE 2: Github kinda sucks balls so it wont display the matrixes at all. Just open this file with any good md formatter and youre golden**
 
 ## Overview
-The **Dynamic Bicycle Model (DBM)** is a mathematical representation of a wheeled vehicle’s motion, considering lateral dynamics, yaw rate, and steering input. The model accounts for the time step between updates, making it suitable for implementation in **Extended Kalman Filters (EKF)** and other discrete-time state estimation algorithms.
+The **Dynamic Bicycle Model (DBM)** is a mathematical representation of a wheeled vehicle’s motion based on Forward Euler, considering lateral dynamics, yaw rate, and steering input. The model accounts for the time step between updates, making it suitable for implementation in **Extended Kalman Filters (EKF)** and other discrete-time state estimation algorithms.
 
 ## State Representation
 The vehicle state is represented by the vector:
@@ -58,7 +58,7 @@ where:
 Im actually to tired to explain this. Refer to the first 2 pages of the [paper i *stole* the DBM from](https://arxiv.org/abs/2011.09612). More specifically, the first model described in segment **II** 
 
 The similitudes with the paper end here. Please please pretty please familiriarize yourself with \(f, F_{y1}, F_{y2}\) before trying to understand what sort of divine whitchcraft is going on next.
-What we did was expand this model to the following discrete(???) model
+What we did was expand this model to the following discrete(???) model using forward euler (cause we (I) did not want to bother with the mathematical analisys involver in backwards euler)
 
 \(x_{k+1}\) = \(x_k + \Delta t f(x_k, u_k)\)
 
@@ -110,3 +110,6 @@ The jacobian, then is a pseudo identity function. Proving this is left as an exe
 
 # IMPORTANT
 My description does NOT make justice to the model its based on. Check the [SOURCE](https://arxiv.org/abs/2011.09612)
+
+# Conclusions
+Despite the model not having being tested empirically yet, common sense and most studies prove that backwards euler works FAR better. MK2 should try to implement the backwards euler model actually described by ***The Paper***
