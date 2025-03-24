@@ -26,7 +26,7 @@ public:
         .m = MR_CONST_MASS   // Mass of the vehicle
     };
 
-    MirenaConsensusNode() : Node("mirena_lidar"),
+    MirenaConsensusNode() : Node("mirena_consensus"),
                             _ekf_scheduler(*this, MirenaConsensusNode::model_parameters),
                             _gps_sub(this->create_subscription<sensor_msgs::msg::NavSatFix>(GPS_SUB_TOPIC, 10, std::bind(&MirenaConsensusNode::gps_callback, this, std::placeholders::_1))),
                             _imu_sub(this->create_subscription<sensor_msgs::msg::Imu>(IMU_SUB_TOPIC, 10, std::bind(&MirenaConsensusNode::imu_callback, this, std::placeholders::_1))),
