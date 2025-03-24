@@ -4,6 +4,7 @@
 #include "mirena_common/msg/wheel_speeds.hpp"
 #include "mirena_common/msg/car_controls.hpp"
 #include "mirena_common/msg/car.hpp"
+#include "mirena_common/const/mirena_const.h"
 
 #include "ekf_scheduler.hpp"
 
@@ -16,14 +17,13 @@
 class MirenaConsensusNode : public rclcpp::Node
 {    
 public:
-    // THESE ARE NOT EMPIRICAL AND ARE JUST TEST VALUES!!!!!!!!!!!
     static constexpr DBMMK1::Parameters model_parameters = {
-        .l_f = 1.2,   // Distance from center of mass to front axis
-        .k_f = 50000, // Front axis equivalent sideslip stiffness
-        .l_r = 1.8,   // Distance from center of mass to rear axis
-        .k_r = 45000, // Rear axis equivalent sideslip stiffness
-        .I_z = 2500,  // Yaw inertia of vehicle body
-        .m = 1500     // Mass of the vehicle
+        .l_f = MR_CONST_L_F,   // Distance from center of mass to front axis
+        .k_f = MR_CONST_K_F, // Front axis equivalent sideslip stiffness
+        .l_r = MR_CONST_L_R,   // Distance from center of mass to rear axis
+        .k_r = MR_CONST_K_R, // Rear axis equivalent sideslip stiffness
+        .I_z = MR_CONST_I_Z,  // Yaw inertia of vehicle body
+        .m = MR_CONST_MASS   // Mass of the vehicle
     };
 
     MirenaConsensusNode() : Node("mirena_lidar"),
