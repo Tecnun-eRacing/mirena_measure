@@ -6,7 +6,7 @@
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <sensor_msgs/msg/imu.hpp>
 #include "mirena_common/msg/wheel_speeds.hpp"
-#include "mirena_common/msg/car_controls.hpp"
+#include "mirena_common/msg/ackermann_drive_stamped.hpp"
 #include "mirena_common/msg/car.hpp"
 
 #include "DBMMK1/dbmmk1.hpp"
@@ -48,7 +48,7 @@ private:
 
     void receive_wss(const mirena_common::msg::WheelSpeeds::SharedPtr msg);
 
-    void receive_control(const mirena_common::msg::CarControls::SharedPtr msg);
+    void receive_control(const mirena_common::msg::AckermannDriveStamped::SharedPtr msg);
 
     mirena_common::msg::Car predict_state();
 

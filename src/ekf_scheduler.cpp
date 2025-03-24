@@ -76,10 +76,10 @@ void EKFScheduler::receive_wss(const mirena_common::msg::WheelSpeeds::SharedPtr 
     // DO NOTHING FOR NOW
 }
 
-void EKFScheduler::receive_control(const mirena_common::msg::CarControls::SharedPtr msg)
+void EKFScheduler::receive_control(const mirena_common::msg::AckermannDriveStamped::SharedPtr msg)
 {
-    this->_last_control_processed(0) = msg->gas;
-    this->_last_control_processed(1) = msg->steer_angle;
+    this->_last_control_processed(0) = msg->drive.acceleration;
+    this->_last_control_processed(1) = msg->drive.steering_angle;
 }
 
 mirena_common::msg::Car EKFScheduler::predict_state()
