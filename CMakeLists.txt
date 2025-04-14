@@ -7,6 +7,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(tf2 REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(mirena_common REQUIRED)
 
@@ -19,6 +20,7 @@ add_definitions(${PCL_DEFINITIONS})
 add_executable(mirena_consensus
 src/mirena_consensus.cpp
 src/DBMMK1/dbmmk1.cpp
+src/ekf_scheduler.cpp
 )
 
 ament_target_dependencies(mirena_consensus

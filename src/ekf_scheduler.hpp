@@ -5,11 +5,33 @@
 #include <rclcpp/clock.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <sensor_msgs/msg/imu.hpp>
+
 #include "mirena_common/msg/wheel_speeds.hpp"
-#include "mirena_common/msg/ackermann_drive_stamped.hpp"
+#include "mirena_common/msg/car_control.hpp"
 #include "mirena_common/msg/car.hpp"
 
 #include "DBMMK1/dbmmk1.hpp"
+
+#include <optional>
+
+#define FIXED_FRAME "world"
+
+// Using ENU convention (without U lmaooo)
+struct CartesianCoords {
+    double x;
+    double y;
+};
+
+class GPSPos{
+    public:
+    GPSPos(double latitude, double longitude): _latitude(latitude), _longitude(longitude){}
+
+    CartesianCoords to_cartesian(GPSPos& origin);
+
+    private:
+    double _latitude;
+    double _longitude;
+};
 
 class EKFScheduler
 {
@@ -21,10 +43,11 @@ private:
     rclcpp::Time _last_ekf_update;
     rclcpp::Time _last_gps_update, _last_imu_update, _last_wss_update;
 
+    std::optional<GPSPos> gps_origin;
     mirena::ExtendedKalmanFilter<DBMMK1::STATE_DIM, DBMMK1::CONTROL_DIM, DBMMK1::MEASURE_DIM> _ekf;
 
     DBMMK1::U get_control(double delta_t);
-    void update_ekf(const DBMMK1::U control, const DBMMK1::Z measures);
+    void update_ekf(const DBMMK1::U& control, const DBMMK1::Z& measures);
 
 
     public:
@@ -48,7 +71,7 @@ private:
 
     void receive_wss(const mirena_common::msg::WheelSpeeds::SharedPtr msg);
 
-    void receive_control(const mirena_common::msg::AckermannDriveStamped::SharedPtr msg);
+    void receive_control(const mirena_common::msg::CarControl::SharedPtr msg);
 
     mirena_common::msg::Car predict_state();
 
