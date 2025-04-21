@@ -67,7 +67,7 @@ The Jacobian of this model is calculated analitically as follows:
 \[
 \mathbf{F} = \mathbf{I} + \Delta t
 \begin{bmatrix}
-0 & 0 & -u\sin(\varphi) -v\cos(\varphi) & \cos(\varphi) & -\sin(\varphi) & 0 \\
+0 & 0 & -u\sin(\varphi) -u\cos(\varphi) & \cos(\varphi) & -\sin(\varphi) & 0 \\
 0 & 0 & u\cos(\varphi) -v\sin(\varphi) & \sin(\varphi) & \cos(\varphi) & 0 \\
 0 & 0 & 0 & 0 & 0 & 1 \\
 0 & 0 & 0 & -\frac{1}{m}(\frac{\partial F_{y1}}{\partial u}\sin(\delta)) &
