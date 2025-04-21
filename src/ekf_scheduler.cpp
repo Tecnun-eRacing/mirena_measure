@@ -102,7 +102,6 @@ mirena_common::msg::Car EKFScheduler::predict_state()
     DBMMK1::X predicted_state_raw = this->_ekf.predict_state(this->get_control(delta_t));
     DBMMK1::StateAcessor predicted_state(predicted_state_raw);
 
-    static_assert(false, "CAR MESSAGE CONVERSION NOT IMPLEMENTED IN EKF_SCHEDULER");
     // Populate the car message from the state:
     mirena_common::msg::Car msg;
     msg.header.set__frame_id(FIXED_FRAME);
