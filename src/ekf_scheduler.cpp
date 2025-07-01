@@ -8,7 +8,11 @@
 
 int64_t EKFScheduler::get_max_sensor_slack()
 {
-    return std::max(this->_last_gps_update.nanoseconds(), this->_last_imu_update.nanoseconds(), this->_last_wss_update.nanoseconds());
+    return std::max({
+        this->_last_gps_update.nanoseconds(), 
+        this->_last_imu_update.nanoseconds(), 
+        this->_last_wss_update.nanoseconds()
+    });
 }
 
 void EKFScheduler::receive_gps(const sensor_msgs::msg::NavSatFix::SharedPtr msg)
@@ -87,6 +91,7 @@ void EKFScheduler::receive_wss(const mirena_common::msg::WheelSpeeds::SharedPtr 
     this->_last_wss_update = msg->header.stamp;
 
     // DO NOTHING FOR NOW
+    (void)delta_t;
 }
 
 void EKFScheduler::receive_control(const mirena_common::msg::CarControl::SharedPtr msg)
@@ -105,7 +110,8 @@ mirena_common::msg::Car EKFScheduler::predict_state()
     // Populate the car message from the state:
     mirena_common::msg::Car msg;
     msg.header.set__frame_id(FIXED_FRAME);
-    msg.header.set__stamp(now.to_msg());
+    msg.header.stamp.set__sec(static_cast<int32_t>(now.seconds()));
+    msg.header.stamp.set__nanosec(static_cast<uint32_t>(now.nanoseconds() % 1000000000));
 
     msg.pose.position.set__x(predicted_state.p_x());
     msg.pose.position.set__y(predicted_state.p_y());

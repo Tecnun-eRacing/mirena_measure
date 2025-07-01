@@ -27,12 +27,12 @@ class MirenaConsensusNode : public rclcpp::Node
 {    
 public:
     static constexpr DBMMK1::Parameters model_parameters = {
-        .l_f = MR_CONST_L_F,   // Distance from center of mass to front axis
-        .k_f = MR_CONST_K_F, // Front axis equivalent sideslip stiffness
-        .l_r = MR_CONST_L_R,   // Distance from center of mass to rear axis
-        .k_r = MR_CONST_K_R, // Rear axis equivalent sideslip stiffness
-        .I_z = MR_CONST_I_Z,  // Yaw inertia of vehicle body
-        .m = MR_CONST_MASS   // Mass of the vehicle
+        MR_CONST_L_F,   // Distance from center of mass to front axis
+        MR_CONST_K_F, // Front axis equivalent sideslip stiffness
+        MR_CONST_L_R,   // Distance from center of mass to rear axis
+        MR_CONST_K_R, // Rear axis equivalent sideslip stiffness
+        MR_CONST_I_Z,  // Yaw inertia of vehicle body
+        MR_CONST_MASS   // Mass of the vehicle
     };
 
     MirenaConsensusNode() : Node("mirena_consensus"),
