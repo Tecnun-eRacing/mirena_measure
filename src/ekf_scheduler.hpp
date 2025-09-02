@@ -9,8 +9,7 @@
 #include "mirena_common/msg/wheel_speeds.hpp"
 #include "mirena_common/msg/car_control.hpp"
 #include "mirena_common/msg/car.hpp"
-
-#include "DBMMK1/dbmmk1.hpp"
+#include "mirena_common/common_lib/models/car/DBMMK1/dbmmk1.hpp"
 
 #include <optional>
 

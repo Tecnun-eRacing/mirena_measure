@@ -18,12 +18,12 @@ find_package(geometry_msgs REQUIRED)
 
 include_directories(
   src
-  ${tf2_geometry_msgs_INCLUDE_DIRS}  
+  build/mirena_common/include/mirena_common/src
+  ${tf2_geometry_msgs_INCLUDE_DIRS}
 )
 
 add_executable(mirena_consensus
 src/mirena_consensus.cpp
-src/DBMMK1/dbmmk1.cpp
 src/ekf_scheduler.cpp
 )
 
